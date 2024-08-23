@@ -6,29 +6,48 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import cardimg from "../../assets/images/Data.jpeg";
+import { useNavigate } from "react-router-dom";
 
-const CardDashboard = () => {
+// Example images (you can replace with your actual image paths)
+import kalenderimg from "../../assets/images/kalender.jpeg";
+import worklogimg from "../../assets/images/worklog.jpeg";
+import workorderimg from "../../assets/images/workorder.jpeg";
+
+// CardDashboard component accepting props
+const CardDashboard = ({ image, title, buttonText1, path }) => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate(path);
+  };
+
   return (
-    <Card sx={{ maxWidth: 250, maxHeight: 500 }}>
+    <Card className="bg-blue" sx={{ maxWidth: 275, maxHeight: 400 }}>
       <CardMedia
+        className="border rounded-2xl border-blue-800"
         component="img"
-        alt="green iguana"
+        alt={title}
         height="80px"
-        image={cardimg}
+        image={image}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica.
+        <Typography
+          className="text-[#2D60FF]"
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          {title}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button
+          className="flex items-center border border-blue-500"
+          size="small"
+          onClick={handleButtonClick}
+        >
+          {buttonText1}
+        </Button>
       </CardActions>
     </Card>
   );
@@ -38,13 +57,28 @@ const CardList = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4}>
-        <CardDashboard />
+        <CardDashboard
+          image={worklogimg}
+          title="Ingin melihat aktivitas terbaru ?"
+          buttonText1="Lihat Aktivitas"
+          path="/worklog"
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <CardDashboard />
+        <CardDashboard
+          image={workorderimg}
+          title="Ingin melihat tugas kerja terbaru ?"
+          buttonText1="Lihat Tugas"
+          path="/workorder"
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <CardDashboard />
+        <CardDashboard
+          image={kalenderimg}
+          title="Ingin melihat Kalender kerja ?"
+          buttonText1="Lihat Kalender"
+          path="/kalender"
+        />
       </Grid>
     </Grid>
   );

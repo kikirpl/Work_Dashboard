@@ -16,6 +16,7 @@ const SideMenu = () => {
     { title: "Work Log", src: worklogsvg, path: "/worklog" },
     { title: "Work Order", src: workordersvg, path: "/workorder" },
   ];
+
   const Icon = styled.img`
     width: ${({ size }) => size}px;
     height: ${({ size }) => size}px;
@@ -25,11 +26,18 @@ const SideMenu = () => {
         ? "invert(27%) sepia(78%) saturate(6666%) hue-rotate(180deg) brightness(102%) contrast(102%)"
         : "none"};
   `;
+
+  const navigate = useNavigate();
+
+  // Handle click for Teknomadya
+  const handleHomeClick = () => {
+    navigate("/"); // Navigate to the dashboard
+  };
+
   const handleMenuClick = (path) => {
-    setOpen(false);
     navigate(path);
   };
-  const navigate = useNavigate();
+
   return (
     <div className="flex">
       <div
@@ -45,9 +53,10 @@ const SideMenu = () => {
         />
         <div className="flex gap-x-4 items-center">
           <h1
-            className={`text-[#343C6A]  ml-8 font-semibold text-2xl duration-200 ${
+            className={`text-[#343C6A] ml-8 font-semibold text-2xl duration-200 cursor-pointer ${
               !open && "scale-0"
             }`}
+            onClick={handleHomeClick}
           >
             Teknomadya
           </h1>

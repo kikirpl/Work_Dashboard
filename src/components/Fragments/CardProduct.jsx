@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Button from "../Elements/button";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/slices/cartSlice";
+import * as React from "react";
 
 const CardProduct = (props) => {
   const { children } = props;
@@ -60,5 +61,6 @@ const Footer = (props) => {
 CardProduct.Header = Header;
 CardProduct.Body = Body;
 CardProduct.Footer = Footer;
+CardProduct.Card = ImgMediaCard;
 
 export default CardProduct;

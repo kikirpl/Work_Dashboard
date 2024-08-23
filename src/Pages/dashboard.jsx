@@ -1,17 +1,13 @@
-import { Fragment, useEffect, useState, useContext } from "react";
-import CardProduct from "../components/Fragments/CardProduct";
-import { getProducts } from "../services/product.service";
+import { Fragment } from "react";
+// import CardProduct from "../components/Fragments/CardProduct";
+import SideMenu from "../components/Layouts/SideMenu";
 import { useLogin } from "../hooks/useLogin";
-import TableCart from "../components/Fragments/TableCart";
 import Navbar from "../components/Layouts/Navbar";
-import { DarkMode } from "../context/DarkMode";
+import CardList from "../components/Fragments/CardDashboard";
 
 const ProductsPage = () => {
-  // const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [products, setProducts] = useState([]);
   useLogin();
-  const { isDarkMode, setIsDarkMode } = useContext(DarkMode);
+  // const [products, setProducts] = useState([]);
 
   // useEffect(() => {
   //   const storedCart = localStorage.getItem("cart");
@@ -20,16 +16,19 @@ const ProductsPage = () => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    getProducts((data) => {
-      setProducts(data);
-    });
-  }, []);
-
   return (
     <Fragment>
-      <Navbar />
-      <div
+      <div className="bg-neutral-100 overflow-hidden flex flex-row">
+        <SideMenu />
+        <div className="flex flex-col flex-1">
+          <Navbar />
+          <div className="flex justify-center py-10 px-11 flex-wrap">
+            <CardList />
+          </div>
+        </div>
+      </div>
+
+      {/* <div
         className={`flex justify-center py-5 ${isDarkMode && "bg-slate-900"}`}
       >
         <div className="w-4/6 flex flex-wrap">
@@ -50,11 +49,7 @@ const ProductsPage = () => {
               </CardProduct>
             ))}
         </div>
-        <div className="w-2/6 border-l-2 border-gray-300">
-          <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">Cart</h1>
-          <TableCart products={products}></TableCart>
-        </div>
-      </div>
+      </div> */}
       {/* <div className="mt-5 flex justify-center mb-5">
         <Counter></Counter>
       </div> */}

@@ -1,43 +1,51 @@
-import { useSelector } from "react-redux";
 import { useLogin } from "../../hooks/useLogin";
 import Button from "../Elements/button";
-import { useEffect, useState, useContext } from "react";
-import { DarkMode } from "../../context/DarkMode";
-import { useTotalPrice } from "../../context/TotalPriceContext";
+import AuthLayout from "./AuthLayouts";
 
 const Navbar = () => {
   const username = useLogin();
-  const { isDarkMode, setIsDarkMode } = useContext(DarkMode);
-  const [totalCart, setTotalCart] = useState(0);
-  const cart = useSelector((state) => state.cart.data);
-  const { total } = useTotalPrice();
 
-  useEffect(() => {
-    const sum = cart.reduce((acc, item) => {
-      return acc + item.qty;
-    }, 0);
-    setTotalCart(sum);
-  }, [cart]);
   return (
-    <div className="flex justify-end h-20 bg-blue-600 text-white items-center px-10">
-      {username}
-      <Button classname="bg-black" onClick={handleLogout}>
-        Logout
-      </Button>
-      <div className="flex items-center bg-gray-800 p-2 rounded-md ml-5 mr-5">
-        Item : {totalCart} | Total : {total}
+    <div className="flex h-20 bg-white text-black items-center px-10 justify-between">
+      <div className="text-2xl text-[#343C6A] font-semibold">
+        <HeadTitle />
       </div>
-      <Button
-        className="bg-black px-10 mx-5 text-white rounded"
-        onClick={() => setIsDarkMode(!isDarkMode)}
-      >
-        {isDarkMode ? "Light" : "Dark"}
-      </Button>
+      <div className="flex items-center">
+        <div className="px-5 font-serif">{username}</div>
+        <Button className="bg-[#72c1c5]" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
     </div>
   );
   function handleLogout() {
     localStorage.removeItem("token");
     window.location.href = "/login";
+  }
+};
+const HeadTitle = (type) => {
+  switch (type) {
+    case "dashboard":
+      return (
+        <h1 className="text-2xl text-[#343C6A] font-semibold">Dashboard</h1>
+      );
+    case "kalender":
+      return (
+        <h1 className="text-2xl text-[#343C6A] font-semibold">Kalender</h1>
+      );
+    case "worklog":
+      return (
+        <h1 className="text-2xl text-[#343C6A] font-semibold">Work Log</h1>
+      );
+    case "workorder":
+      return (
+        <h1 className="text-2xl text-[#343C6A] font-semibold">Work Order</h1>
+      );
+    default:
+      <h1 className="text-2xl text-[#343C6A] font-semibold">
+        Page ini tidak ada
+      </h1>;
+      return null;
   }
 };
 

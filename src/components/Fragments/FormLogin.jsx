@@ -7,6 +7,7 @@ const FormLogin = () => {
   const [loginFailed, setLoginFailed] = useState("");
   const handleLogin = (event) => {
     event.preventDefault();
+
     // localStorage.setItem("email", event.target.email.value);
     // localStorage.setItem("password", event.target.password.value);
     // window.location.href = "/products";
@@ -17,7 +18,7 @@ const FormLogin = () => {
     login(data, (status, res) => {
       if (status) {
         localStorage.setItem("token", res);
-        window.location.href = "/products";
+        window.location.href = "/";
       } else {
         setLoginFailed(res.response.data);
       }

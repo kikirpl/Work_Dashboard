@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { DarkMode } from "../../context/DarkMode";
 import { useContext } from "react";
+// import SideMenu from "./SideMenu";
+// import Sidebar from "react-sidebar";
 
 const AuthLayout = (props) => {
   const { children, title, type } = props;

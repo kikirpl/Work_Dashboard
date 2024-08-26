@@ -8,9 +8,6 @@ const FormLogin = () => {
   const handleLogin = (event) => {
     event.preventDefault();
 
-    // localStorage.setItem("email", event.target.email.value);
-    // localStorage.setItem("password", event.target.password.value);
-    // window.location.href = "/products";
     const data = {
       username: event.target.username.value,
       password: event.target.password.value,

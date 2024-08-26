@@ -59,14 +59,18 @@ const TableWorkLog = () => {
       const updatedWorklogs = [...worklogs];
       updatedWorklogs[editIndex] = {
         ...newWorkLog,
-        id: updatedWorklogs[editIndex].id,
+        id: updatedWorklogs[editIndex].id, // Keep the same ID
       };
       setWorklogs(updatedWorklogs);
     } else {
       // Add new work log
-      setWorklogs([...worklogs, { ...newWorkLog, id: worklogs.length + 1 }]);
+      const newId =
+        worklogs.length > 0 ? worklogs[worklogs.length - 1].id + 1 : 1;
+      setWorklogs([...worklogs, { ...newWorkLog, id: newId }]);
     }
-    setIsModalOpen(false); // Close modal after adding or editing
+    // Update filteredWorklogs to reflect the changes
+    setFilteredWorklogs([...worklogs, { ...newWorkLog }]);
+    setIsModalOpen(false); // Close modal
     setNewWorkLog({
       date: "",
       week: "",
@@ -75,8 +79,8 @@ const TableWorkLog = () => {
       type: "",
       account: "",
       activity: "",
-    }); // Reset form after submit
-    setEditIndex(null); // Reset edit index after submit
+    });
+    setEditIndex(null); // Reset edit index
   };
 
   const handleEdit = (index) => {
@@ -86,7 +90,9 @@ const TableWorkLog = () => {
   };
 
   const handleDelete = (id) => {
-    setWorklogs(worklogs.filter((worklog) => worklog.id !== id));
+    const updatedWorklogs = worklogs.filter((worklog) => worklog.id !== id);
+    setWorklogs(updatedWorklogs);
+    setFilteredWorklogs(updatedWorklogs);
   };
 
   const handleSearch = (e) => {
@@ -95,7 +101,7 @@ const TableWorkLog = () => {
     setFilteredWorklogs(
       worklogs.filter((worklog) =>
         Object.values(worklog).some((value) =>
-          value.toLowerCase().includes(term)
+          value.toString().toLowerCase().includes(term)
         )
       )
     );
@@ -180,7 +186,7 @@ const TableWorkLog = () => {
                 account: "",
                 activity: "",
               });
-              setEditIndex(null); // Ensure we're adding a new item
+              setEditIndex(null); // Reset to adding new item
               setIsModalOpen(true);
             }}
           >
@@ -193,10 +199,13 @@ const TableWorkLog = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md h-auto max-h-[80vh] overflow-y-auto">
-            <h3 className="text-xl font-semibold mb-4">
+            <h3 className="text-2xl font-bold mb-4">
               {editIndex !== null ? "Edit Work Log" : "Add New Work Log"}
             </h3>
             <div className="flex flex-col space-y-4">
+              <label className="text-[18px] " htmlFor="date">
+                Date
+              </label>
               <input
                 type="date"
                 name="date"

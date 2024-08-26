@@ -8,12 +8,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
-// Example images (you can replace with your actual image paths)
 import kalenderimg from "../../assets/images/kalender.jpeg";
 import worklogimg from "../../assets/images/worklog.jpeg";
 import workorderimg from "../../assets/images/workorder.jpeg";
 
-// CardDashboard component accepting props
 const CardDashboard = ({ image, title, buttonText1, path }) => {
   const navigate = useNavigate();
 

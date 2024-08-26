@@ -53,14 +53,17 @@ const TableWorkOrder = () => {
         id: updatedWorkorders[editIndex].id,
       };
       setWorkorders(updatedWorkorders);
+      setFilteredWorkorders(updatedWorkorders); // Update filteredWorkorders as well
     } else {
       // Add new work order
-      setWorkorders([
-        ...workorders,
-        { ...newWorkOrder, id: workorders.length + 1 },
-      ]);
+      const newWorkOrderWithId = { ...newWorkOrder, id: workorders.length + 1 };
+      const updatedWorkorders = [...workorders, newWorkOrderWithId];
+      setWorkorders(updatedWorkorders);
+      setFilteredWorkorders(updatedWorkorders); // Update filteredWorkorders as well
     }
-    setIsModalOpen(false); // Tutup modal setelah menambahkan atau mengedit
+
+    // Tutup modal dan reset form
+    setIsModalOpen(false);
     setNewWorkOrder({
       week: "",
       date: "",
@@ -74,18 +77,25 @@ const TableWorkOrder = () => {
       status: "",
       progress: "",
       note: "",
-    }); // Reset form setelah submit
+    });
     setEditIndex(null); // Reset edit index setelah submit
   };
 
   const handleEdit = (index) => {
-    setNewWorkOrder(workorders[index]);
-    setEditIndex(index);
-    setIsModalOpen(true);
+    // Masukkan work order yang dipilih ke dalam newWorkOrder
+    const selectedWorkOrder = workorders[index];
+    setNewWorkOrder(selectedWorkOrder);
+    setEditIndex(index); // Simpan index dari work order yang diedit
+    setIsModalOpen(true); // Buka modal
   };
 
   const handleDelete = (id) => {
-    setWorkorders(workorders.filter((workorder) => workorder.id !== id));
+    // Hapus work order berdasarkan id
+    const updatedWorkorders = workorders.filter(
+      (workorder) => workorder.id !== id
+    );
+    setWorkorders(updatedWorkorders);
+    setFilteredWorkorders(updatedWorkorders); // Update filteredWorkorders
   };
 
   const handleSearch = (e) => {
@@ -187,7 +197,7 @@ const TableWorkOrder = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md h-auto max-h-[80vh] overflow-y-auto">
-            <h3 className="text-xl font-semibold mb-4">
+            <h3 className="text-xl font-bold mb-4">
               {editIndex !== null ? "Edit Work Order" : "Add New Work Order"}
             </h3>
             <div className="flex flex-col space-y-4">
@@ -199,6 +209,9 @@ const TableWorkOrder = () => {
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
               />
+              <label className="text-[18px]" htmlFor="date">
+                Date
+              </label>
               <input
                 type="date"
                 name="date"
@@ -207,6 +220,9 @@ const TableWorkOrder = () => {
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
               />
+              <label className="text-[18px]" htmlFor="due_date">
+                Due Date
+              </label>
               <input
                 type="date"
                 name="due_date"
@@ -255,22 +271,34 @@ const TableWorkOrder = () => {
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
               />
-              <input
-                type="text"
+
+              {/* Dropdown buat Priority */}
+              <select
                 name="priority"
-                placeholder="Priority"
                 value={newWorkOrder.priority}
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
+              >
+                <option value="">Select Priority</option>
+                <option value="priority 1">Priority 1</option>
+                <option value="priority 2">Priority 2</option>
+                <option value="urgent">Urgent</option>
+              </select>
+
+              {/* Dropdown buat Status */}
+              <select
                 name="status"
-                placeholder="Status"
                 value={newWorkOrder.status}
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
-              />
+              >
+                <option value="">Select Status</option>
+                <option value="issued">Issued</option>
+                <option value="onProgress">On Progress</option>
+                <option value="done">Done</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+
               <input
                 type="text"
                 name="progress"

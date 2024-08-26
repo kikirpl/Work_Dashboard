@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import control from "../../assets/images/control.png";
 import calendersvg from "../../assets/kalender.svg";
 import worklogsvg from "../../assets/worklog.svg";
@@ -10,6 +10,9 @@ import styled from "styled-components";
 
 const SideMenu = () => {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation(); // To get the current location
+
   const Menus = [
     { title: "Dashboard", src: dashboardsvg, path: "/" },
     { title: "Kalender", src: calendersvg, path: "/kalender" },
@@ -27,7 +30,12 @@ const SideMenu = () => {
         : "none"};
   `;
 
-  const navigate = useNavigate();
+  // Close menu when entering the "/workorder" page
+  useEffect(() => {
+    if (location.pathname === "/workorder") {
+      setOpen(false);
+    }
+  }, [location.pathname]);
 
   // Handle click for Teknomadya
   const handleHomeClick = () => {
@@ -41,14 +49,14 @@ const SideMenu = () => {
   return (
     <div className="flex">
       <div
-        className={` ${
-          open ? "w-72" : "w-20 "
-        } border-r-[#D1DEFA] border-r-2 bg-white h-screen p-5  pt-8 relative duration-300`}
+        className={`${
+          open ? "w-72" : "w-20"
+        } border-r-[#D1DEFA] border-r-2 bg-white h-screen p-5 pt-8 relative duration-300`}
       >
         <img
           src={control}
           className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
-           border-2 rounded-full  ${!open && "rotate-180"}`}
+           border-2 rounded-full ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}
         />
         <div className="flex gap-x-4 items-center">
@@ -69,7 +77,7 @@ const SideMenu = () => {
                   ${Menu.gap ? "mt-9" : "mt-2"}
                   ${
                     location.pathname === Menu.path
-                      ? " text-[#2D60FF] font-semibold border-l-4 border-[#2D60FF]"
+                      ? " text-blue-600 font-semibold border-l-4 border-[#2D60FF]"
                       : ""
                   } 
                `}
